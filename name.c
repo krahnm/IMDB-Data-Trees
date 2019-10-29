@@ -30,7 +30,7 @@ struct name_basics *get_name(char *path){
 		if(strstr(contents, "actor")!=NULL){
 			printf("actor\n");
 			lines++;
-			
+			 
 		}
 		else if(strstr(contents, "actress")!=NULL){
 			printf("actress\n");
