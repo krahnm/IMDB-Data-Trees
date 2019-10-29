@@ -4,4 +4,4 @@ struct name_basics {
 	char *primaryName;
 	};
 	
-struct name_basics *get_name(char *);
+struct name_basics **get_name(char *);

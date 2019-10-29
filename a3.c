@@ -7,7 +7,7 @@
  
 
 int main(int argc, char *argv[]){
-	struct name_basics *ptr = NULL;
+	struct name_basics **ptr = NULL;
 	
 	/*if(argc<2){
 		fprintf( stderr, "Usage:  %s directory\n", argv[0] );
@@ -15,6 +15,13 @@ int main(int argc, char *argv[]){
 	}*/
 	
 	ptr = get_name("/home/courses/cis2520"); /*Replace with the input from the terminal*/
+	
+	int j=0;
+	
+	while(ptr[j]!=NULL){
+		printf("nConst:	%s \tName:	%s\n", ptr[j]->nconst, ptr[j]->primaryName);
+		j++;
+	}
 	
 	return 0;	
 }
