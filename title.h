@@ -6,9 +6,11 @@ struct title_basics {
 	
 	struct titleInfo {
 		int numItems;
-		struct title_basics **array;
-		struct tree **nConstRoot;
-		struct tree **nameRoot;
+		struct title_basics **value;
+		struct tree *tindex;
+		struct tree *nindex;
 	};
 	
 struct titleInfo *get_title(char *);
+
+void build_tindex(struct titleInfo *tInfo);

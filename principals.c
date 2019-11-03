@@ -52,7 +52,7 @@ struct principalsInfo *get_titlePrinciples(char *path){
 	struct title_principals **nameArray = malloc(sizeof(struct title_principals)*lines);
 	treeInfo->numItems = lines;
 	treeInfo->array = nameArray;
-	treeInfo->nameRoot = 0;
+	treeInfo->tConstRoot = 0;
 	treeInfo->nConstRoot = 0;
 	
 	fseek(fp, 0, SEEK_SET);

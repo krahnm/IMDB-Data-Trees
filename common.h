@@ -1,7 +1,7 @@
 
 struct tree
 {
-  void *data;
+  void *value;
   char *key;
   struct tree *children[2];
 };

@@ -47,9 +47,9 @@ struct titleInfo *get_title(char *path){
 	
 	struct title_basics **nameArray = malloc(sizeof(struct title_basics)*lines);
 	treeInfo->numItems = lines;
-	treeInfo->array = nameArray;
-	treeInfo->nameRoot = 0;
-	treeInfo->nConstRoot = 0;
+	treeInfo->value = nameArray;
+	treeInfo->nindex = 0;
+	treeInfo->tindex = 0;
 	fseek(fp, 0, SEEK_SET);
 	i=0;
 	int k = 0;
@@ -103,11 +103,13 @@ struct titleInfo *get_title(char *path){
 
 
 
- build_ptindex(struct titleInfo *tInfo){
-	 
+ void build_tindex(struct titleInfo *tInfo){
+	 int j = 0;
+	 while(tInfo->value[j] != NULL){
+		add_node(&tInfo->tindex, tInfo->value[j]->primaryTitle, tInfo->value[j]);
+		j++;
+	}
  }
  
- add_node(){
-	 
- }
+
 
