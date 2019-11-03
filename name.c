@@ -7,11 +7,12 @@
 #include "name.h"
 
 
-struct name_basics **get_name(char *path){
+struct nameInfo *get_name(char *path){
+	struct nameInfo *treeInfo;
+	treeInfo = malloc(sizeof(struct nameInfo));
 	char *location = malloc(strlen(path) + strlen("/name.basics.tsv") + 1);
 	char *buffer = malloc(256);
-	char *string1 = malloc(256);
-	char *string2 = malloc(256);
+	char *string = malloc(256);
 	char * nConst = '\0';
 	char *name = '\0';
 	int lines = 0;
@@ -23,19 +24,19 @@ struct name_basics **get_name(char *path){
 	
 	
 	fp = fopen(location, "r");
-	while (i<=5 /*!feof(fp)*/){
+	while (/*i<=5*/ !feof(fp)){
 		fgets(buffer, 256, fp);
 		/*if(strcmp(buffer,"NULL") != 0){
 			printf("\n BUFFER IS MESSED \n");
 		}*/
-		get_column(buffer, string1, string2, 1);
-		printf("Buffer	%s\n", buffer);
-		printf("Contents:	%s\t%s\n", string1, string2);
-		if(strstr(string2, "actor")!=NULL){
+		get_column(buffer, string, 4);
+		/*printf("Buffer	%s\n", buffer);
+		printf("Contents:	[%s]\n", string);*/
+		if(strstr(string, "actor")!=NULL){
 			lines++;
 			 
 		}
-		else if(strstr(string2, "actress")!=NULL){
+		else if(strstr(string, "actress")!=NULL){
 			lines++;
 		}
 		i++;
@@ -43,22 +44,30 @@ struct name_basics **get_name(char *path){
 	
 	printf("\n Lines: %d \n",lines);
 	
-	lines = 5; /*TODO	DELETE AFTER TESTING!!!*/
+	
 	struct name_basics **nameArray = malloc(sizeof(struct name_basics)*lines);
+	treeInfo->numItems = lines;
+	treeInfo->array = nameArray;
+	treeInfo->nameRoot = 0;
+	treeInfo->nConstRoot = 0;
+	
 	fseek(fp, 0, SEEK_SET);
 	i=0;
 	int k = 0;
-	while (i<=5 /*!feof(fp)*/){ 
+	while (/*k<=5*/ !feof(fp)){ 
 		
 		fgets(buffer, 256, fp);
-		get_column(buffer, string1, string2, 1);
-		printf("Contents:	%s\t%s\n", string1, string2);
+		get_column(buffer, string, 4);
+		/*printf("Contents:	[%s]\n", string);*/
 		
-		if(strstr(string2, "actor")!=NULL || strstr(string2, "actress")!=NULL){
-			nConst = malloc(strlen(string1)+1);
-			strcpy(nConst, string1);
-			name = malloc(strlen(string2)+1);
-			strcpy(name, string2);
+		if(strstr(string, "actor")!=NULL || strstr(string, "actress")!=NULL){
+			get_column(buffer, string, 0);
+			nConst = malloc(strlen(string)+1);
+			strcpy(nConst, string);
+			
+			get_column(buffer, string, 1);
+			name = malloc(strlen(string)+1);
+			strcpy(name, string);
 			
 			nameArray[i] = malloc(sizeof(struct name_basics));
 			nameArray[i]->nconst = nConst;
@@ -84,11 +93,10 @@ struct name_basics **get_name(char *path){
 	fclose(fp);
 	free(location);
 	free(buffer);
-	free(string1);
-	free(string2);
+	free(string);
 	
 	
-	return nameArray;
+	return treeInfo;
 }
 
 

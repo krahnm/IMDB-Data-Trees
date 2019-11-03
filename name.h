@@ -4,4 +4,11 @@ struct name_basics {
 	char *primaryName;
 	};
 	
-struct name_basics **get_name(char *);
+struct nameInfo {
+		int numItems;
+		struct name_basics**array;
+		struct tree **nConstRoot;
+		struct tree **nameRoot;
+	};		
+
+struct nameInfo *get_name(char *);
