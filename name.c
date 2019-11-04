@@ -8,16 +8,20 @@
 
 
 struct nameInfo *get_name(char *path){
-	struct nameInfo *treeInfo;
-	treeInfo = malloc(sizeof(struct nameInfo));
-	char *location = malloc(strlen(path) + strlen("/name.basics.tsv") + 1);
+	struct nameInfo *treeInfo = NULL;
+	struct name_basics **nameArray = NULL;
+	char *location = NULL;
 	char *buffer = malloc(256);
 	char *string = malloc(256);
 	char * nConst = '\0';
 	char *name = '\0';
 	int lines = 0;
 	int i=0;
+	int k = 0;
 	FILE *fp;
+	
+	treeInfo = malloc(sizeof(struct nameInfo));
+	location = malloc(strlen(path) + strlen("/name.basics.tsv") + 1);
 	
 	strcpy(location, path);
 	strcat(location, "/name.basics.tsv");
@@ -45,15 +49,15 @@ struct nameInfo *get_name(char *path){
 	printf("\n Lines: %d \n",lines);
 	
 	
-	struct name_basics **nameArray = malloc(sizeof(struct name_basics)*lines);
+	nameArray = malloc(sizeof(struct name_basics)*lines);
 	treeInfo->numItems = lines;
-	treeInfo->array = nameArray;
-	treeInfo->nameRoot = 0;
-	treeInfo->nConstRoot = 0;
+	treeInfo->value = nameArray;
+	treeInfo->nindex = 0;
+	treeInfo->tindex = 0;
 	
 	fseek(fp, 0, SEEK_SET);
 	i=0;
-	int k = 0;
+	k = 0;
 	while (/*k<=5*/ !feof(fp)){ 
 		
 		fgets(buffer, 256, fp);
@@ -97,6 +101,23 @@ struct nameInfo *get_name(char *path){
 	
 	
 	return treeInfo;
+}
+
+ void build_nindex(struct nameInfo *nInfo){
+	 int j = 0;
+	 for(j =0; j < nInfo->numItems; j++){
+		 add_nnode(&nInfo->nindex, nInfo->value[j]->primaryName, nInfo->value[j]);
+	 }
+	 
+	 /*while((nInfo->value[j]->nconst) != NULL){
+		add_nnode(&nInfo->nindex, nInfo->value[j]->primaryName, nInfo->value[j]);
+		j++;
+	}*/
+ }
+ 
+ 
+struct name_basics *find_primary_name(struct nameInfo *nInfo, char * toFind){
+	return find_nnode(nInfo->nindex, toFind);
 }
 
 

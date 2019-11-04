@@ -15,7 +15,7 @@ void get_column(char *buffer, char *string, int colNum){
 	string[0] = '\0';
 	
 	
-	while((*ptr)!='\0' && i!=colNum){
+	while((*ptr)!='\0' && i!=colNum){/*moves to specific column*/
 		if((*ptr)=='\t'){
 			i++;
 		}
@@ -36,4 +36,14 @@ void get_column(char *buffer, char *string, int colNum){
 			
 		(ptr)++;
 	}
+}
+
+void free_tree( struct tree *root )
+{
+  if (root)
+  {
+    free_tree( root->children[0] );
+    free_tree( root->children[1] );
+    free( root );
+  }
 }

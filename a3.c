@@ -23,25 +23,47 @@ int main(int argc, char *argv[]){
 	ptrPrincipals = get_titlePrinciples("/home/courses/cis2520"); 
 	*/
 	int j=0;
-	
-	
-	struct titleInfo *titleBasics = NULL;
-	
-	titleBasics = get_title("/home/courses/cis2520");
+	/*struct titleInfo *titleBasics = NULL;
+	  titleBasics = get_title("/home/courses/cis2520");
 
   build_tindex( titleBasics );
 
  
+struct title_basics *title = NULL;
+  title = find_primary_title( titleBasics, 
 
-  printf( "%p\n", (void *)(titleBasics->tindex) );
+                            "Star Wars: Episode V - The Empire Strikes Back" );
 
-  printf( "%s\n", (titleBasics->tindex)->key );
+ 
 
-  printf( "%p\n", (void *)(titleBasics->tindex)->value );
+  printf( "%p\n", (void *)title );
 
-  printf( "%s\n", ((struct title_basics *)((titleBasics->tindex)->value))->primaryTitle );
+  printf( "%s\n", title->tconst );
 
-  printf( "%s\n", ((struct title_basics *)((titleBasics->tindex)->value))->tconst );
+  printf( "%s\n", title->primaryTitle );
+	*/
+	
+	
+	struct nameInfo *titleBasics = NULL;
+	
+	titleBasics = get_name("/home/courses/cis2520");
+ 
+
+  build_nindex( titleBasics );
+
+ 
+struct name_basics *title = NULL;
+  title = find_primary_name( titleBasics, 
+
+                            "Anthony Daniels" );
+
+ 
+
+  printf( "%p\n", (void *)title );
+
+  printf( "%s\n", title->nconst );
+
+  printf( "%s\n", title->primaryName );
 	
 	
 	/*CODE FOR TESTING THE title
@@ -50,6 +72,7 @@ int main(int argc, char *argv[]){
 		j++;
 	}*/
 	
+free_tree( titleBasics->nindex );	
 	
 	return 0;	
 }

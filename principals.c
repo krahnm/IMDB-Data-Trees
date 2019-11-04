@@ -10,7 +10,8 @@
 
 struct principalsInfo *get_titlePrinciples(char *path){
 	struct principalsInfo *treeInfo;
-	treeInfo = malloc(sizeof(struct principalsInfo));
+	struct title_principals **nameArray = NULL;
+	
 	char *location = malloc(strlen(path) + strlen("/title.principals.tsv") + 1);
 	char *buffer = malloc(256);
 	char *string1 = malloc(256);
@@ -21,8 +22,9 @@ struct principalsInfo *get_titlePrinciples(char *path){
 	char *tConst = '\0';
 	int lines = 0;
 	int i=0;
+	int k = 0;
 	FILE *fp;
-	
+	treeInfo = malloc(sizeof(struct principalsInfo));
 	strcpy(location, path);
 	strcat(location, "/title.principals.tsv");
 	
@@ -49,7 +51,7 @@ struct principalsInfo *get_titlePrinciples(char *path){
 	printf("\n Lines: %d \n",lines);
 	
 	/*lines = 5; TODO	DELETE AFTER TESTING!!!*/
-	struct title_principals **nameArray = malloc(sizeof(struct title_principals)*lines);
+	nameArray = malloc(sizeof(struct title_principals)*lines);
 	treeInfo->numItems = lines;
 	treeInfo->array = nameArray;
 	treeInfo->tConstRoot = 0;
@@ -57,7 +59,7 @@ struct principalsInfo *get_titlePrinciples(char *path){
 	
 	fseek(fp, 0, SEEK_SET);
 	i=0;
-	int k = 0;
+	k = 0;
 	while (/*k<=700*/ !feof(fp)){ 
 		
 		fgets(buffer, 256, fp);

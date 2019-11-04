@@ -14,3 +14,8 @@ struct title_basics {
 struct titleInfo *get_title(char *);
 
 void build_tindex(struct titleInfo *tInfo);
+
+struct title_basics *find_primary_title(struct titleInfo *tInfo, char * toFind);
+
+void add_tnode(struct tree **e, char *r, struct title_basics *t);
+struct title_basics *find_tnode(struct tree *q, char * w);
