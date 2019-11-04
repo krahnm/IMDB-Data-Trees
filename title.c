@@ -113,15 +113,25 @@ struct titleInfo *get_title(char *path){
 		 add_tnode(&tInfo->tindex, tInfo->value[j]->primaryTitle, tInfo->value[j]);
 	 }
 	
-	 /*while(tInfo->value[j]->tconst != NULL){
-		add_tnode(&tInfo->tindex, tInfo->value[j]->primaryTitle, tInfo->value[j]);
-		j++;
-	}*/
  }
  
  
 struct title_basics *find_primary_title(struct titleInfo *tInfo, char * toFind){
 	return find_tnode(tInfo->tindex, toFind);
+}
+
+ void build_tconstindex(struct titleInfo *tInfo){
+	 int j = 0;
+	
+	for(j =0; j < tInfo->numItems; j++){
+		 add_tnode(&tInfo->nindex, reverse(tInfo->value[j]->tconst), tInfo->value[j]);
+	 }
+	
+ }
+ 
+ 
+struct title_basics *find_tConst(struct titleInfo *tInfo, char * toFind){
+	return find_tnode(tInfo->nindex, toFind);
 }
  
 

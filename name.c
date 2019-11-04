@@ -108,16 +108,23 @@ struct nameInfo *get_name(char *path){
 	 for(j =0; j < nInfo->numItems; j++){
 		 add_nnode(&nInfo->nindex, nInfo->value[j]->primaryName, nInfo->value[j]);
 	 }
-	 
-	 /*while((nInfo->value[j]->nconst) != NULL){
-		add_nnode(&nInfo->nindex, nInfo->value[j]->primaryName, nInfo->value[j]);
-		j++;
-	}*/
  }
  
  
 struct name_basics *find_primary_name(struct nameInfo *nInfo, char * toFind){
 	return find_nnode(nInfo->nindex, toFind);
+}
+
+void build_nconstindex(struct nameInfo *nInfo){
+	 int j = 0;
+	 for(j =0; j < nInfo->numItems; j++){
+		 add_nnode(&nInfo->tindex, reverse(nInfo->value[j]->nconst), nInfo->value[j]);
+	 }
+ }
+ 
+ 
+struct name_basics *find_nConst(struct nameInfo *nInfo, char * toFind){
+	return find_nnode(nInfo->tindex, toFind);
 }
 
 

@@ -38,6 +38,29 @@ void get_column(char *buffer, char *string, int colNum){
 	}
 }
 
+char *reverse(char* string){
+	 char *revString = NULL;
+	 char *ptr = string;
+	 char holder;
+	 int start = 0;
+	 int end = 0;
+	 int length = strlen(string);
+	 int i = 0;
+	 revString = malloc(strlen(string) + 1);
+	 
+	 
+	 
+	 for(i = 0; i < length; i++){
+		 holder = ptr[length - i - 1];
+		 revString[i] = holder;
+	 }
+	 revString[length] = '\0';
+	 string = revString;
+	 free(revString);
+	 return (char*)string;
+	 
+}
+
 void free_tree( struct tree *root )
 {
   if (root)

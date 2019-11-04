@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
 #include "binary.h"
 #include "common.h"
 #include "name.h"
@@ -14,49 +14,114 @@ int main(int argc, char *argv[]){
 	struct title_principals **ptrPrincipals = NULL;
 	struct titleInfo *tInfo = NULL;
 	struct principalsInfo *pInfo = NULL;
-	/*if(argc<2){
+	if(argc<2){
 		fprintf( stderr, "Usage:  %s directory\n", argv[0] );
 		return -1;
-	}*/
+	}
 	/*ptrName = get_name("/home/courses/cis2520");*/
 	/*pInfo = get_titlePrinciples("/home/courses/cis2520");
 	ptrPrincipals = get_titlePrinciples("/home/courses/cis2520"); 
 	*/
 	int j=0;
-	/*struct titleInfo *titleBasics = NULL;
-	  titleBasics = get_title("/home/courses/cis2520");
+	int i =0;
+	char* ptr;
+	char* string = malloc(256);
+	char* string1 = malloc(256);
+	int colNum = 1;
+	char holder; /*Holds characters to copy over*/
+	int len=0;
+	char *buffer = malloc(256);
+	
+	string[0] = '\0';
+	fgets(string, 256, stdin);
+	
+	
+	printf(string);
+	strcpy(string1, string);
+	
+	ptr = string1;
+	while((*ptr)!='\0' && i!=colNum){/*moves to specific column*/
+		if((*ptr)==' '){
+			i++;
+		}
+		
+		(ptr)++;
+	}
+	printf("%s \n", ptr);
+	if(strstr(string, "name")!=NULL){
+		printf("name\n");
+		printf("use %s \n", ptr);
+		struct nameInfo *titleBasics = NULL;
+	
+		titleBasics = get_name(argv[1]);
+ 
+
+		build_nindex( titleBasics );
+
+ 
+		struct name_basics *title = NULL;
+		title = find_primary_name( titleBasics, ptr );
+	}
+	else if(strstr(string, "title")!=NULL){
+		printf("title\n");
+		printf("use %s \n", ptr);
+	}
+	else {
+		printf("ERROR");
+		
+	}
+	
+/*"/home/courses/cis2520"
+ */
+/*
+struct title_basics *title = NULL;
+ struct name_basics *name = NULL;
+  struct title_principals *principals = NULL;
+ 
+ struct titleInfo *titleBasics = NULL;
+   titleBasics = get_title( argv[1] );
+
+  build_tconstindex( titleBasics );
 
   build_tindex( titleBasics );
 
+
+struct nameInfo *nameBasics = NULL;
+  nameBasics = get_name( argv[1] );
+
+  build_nconstindex( nameBasics );
+*//*
+  build_nindex( nameBasics );
+
  
-struct title_basics *title = NULL;
-  title = find_primary_title( titleBasics, 
+struct principalsInfo *titlePrincipals = NULL;
+  titlePrincipals = get_principals(argv[1] );
 
-                            "Star Wars: Episode V - The Empire Strikes Back" );
+  build_tindex_tp( titlePrincipals );
+
+  build_nindex_tp( titlePrincipals );
 
  
 
-  printf( "%p\n", (void *)title );
+  printf( "Ready\n" );
+  
+  */ /*name = find_nConst( nameBasics, principals->nconst );
+  printf("%s\n", name->primaryName);
 
-  printf( "%s\n", title->tconst );
+  title = find_primary_title( titleBasics, "Blade Runner" );
 
-  printf( "%s\n", title->primaryTitle );
+ principals = find_tconst_tp( titlePrincipals, title->tconst );
+
+  name = find_nConst( nameBasics, principals->nconst );
+
+ 
+/*
+  printf( "%s\n", name->primaryName );
 	*/
 	
 	
-	struct nameInfo *titleBasics = NULL;
-	
-	titleBasics = get_name("/home/courses/cis2520");
- 
 
-  build_nindex( titleBasics );
-
- 
-struct name_basics *title = NULL;
-  title = find_primary_name( titleBasics, 
-
-                            "Anthony Daniels" );
-
+/*
  
 
   printf( "%p\n", (void *)title );
@@ -66,13 +131,7 @@ struct name_basics *title = NULL;
   printf( "%s\n", title->primaryName );
 	
 	
-	/*CODE FOR TESTING THE title
-	  while(ptr[j] != NULL){
-		printf("nConst:	%s \tName:	%s\n", ptr[j]->tconst, ptr[j]->primaryTitle);
-		j++;
-	}*/
-	
 free_tree( titleBasics->nindex );	
-	
+*/	
 	return 0;	
 }

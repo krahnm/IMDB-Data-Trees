@@ -8,7 +8,7 @@
 #include "principals.h"
 
 
-struct principalsInfo *get_titlePrinciples(char *path){
+struct principalsInfo *get_principals(char *path){
 	struct principalsInfo *treeInfo;
 	struct title_principals **nameArray = NULL;
 	
@@ -53,9 +53,9 @@ struct principalsInfo *get_titlePrinciples(char *path){
 	/*lines = 5; TODO	DELETE AFTER TESTING!!!*/
 	nameArray = malloc(sizeof(struct title_principals)*lines);
 	treeInfo->numItems = lines;
-	treeInfo->array = nameArray;
-	treeInfo->tConstRoot = 0;
-	treeInfo->nConstRoot = 0;
+	treeInfo->value = nameArray;
+	treeInfo->tindex = 0;
+	treeInfo->nindex = 0;
 	
 	fseek(fp, 0, SEEK_SET);
 	i=0;
@@ -111,5 +111,29 @@ struct principalsInfo *get_titlePrinciples(char *path){
 	return treeInfo;
 }
 
+
+ void build_tindex_tp(struct principalsInfo *nInfo){
+	 int j = 0;
+	 for(j =0; j < nInfo->numItems; j++){
+		 add_tnode(&nInfo->nindex, reverse(nInfo->value[j]->tconst), nInfo->value[j]);
+	 }
+ }
+ 
+ 
+struct title_principals *find_tconst_tp(struct principalsInfo *nInfo, char * toFind){
+	return find_nnode(nInfo->nindex, toFind);
+}
+
+void build_nindex_tp(struct principalsInfo *nInfo){
+	 int j = 0;
+	 for(j =0; j < nInfo->numItems; j++){
+		 add_nnode(&nInfo->nindex, nInfo->value[j]->nconst, nInfo->value[j]);
+	 }
+ }
+ 
+ 
+struct title_principals *find_nconst_tp(struct principalsInfo *nInfo, char * toFind){
+	return find_nnode(nInfo->nindex, toFind);
+}
 
 

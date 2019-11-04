@@ -10,3 +10,5 @@ struct tree
 void get_column(char*, char*, int); /*string1 holds first column(nconst). string2 holds specified column*/
 
 void free_tree( struct tree *root );
+
+char *reverse(char* string);
