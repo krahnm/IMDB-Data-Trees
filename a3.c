@@ -53,7 +53,7 @@ int main(int argc, char *argv[]){
 		printf("use %s \n", ptr);
 		struct nameInfo *titleBasics = NULL;
 	
-		titleBasics = get_name(argv[1]);
+		titleBasics = get_name(string);
  
 
 		build_nindex( titleBasics );
@@ -65,6 +65,17 @@ int main(int argc, char *argv[]){
 	else if(strstr(string, "title")!=NULL){
 		printf("title\n");
 		printf("use %s \n", ptr);
+		struct title_basics *title = NULL;
+ 
+		struct titleInfo *titleBasics = NULL;
+		titleBasics = get_title(string);
+
+		build_tconstindex( titleBasics );
+
+		build_tindex( titleBasics );
+		
+		title = find_primary_title( titleBasics, "Blade Runner" );
+		
 	}
 	else {
 		printf("ERROR");
