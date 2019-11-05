@@ -33,14 +33,14 @@ int main(int argc, char *argv[]){
 	char *buffer = malloc(256);
 	
 	string[0] = '\0';
-	/*fgets(string, 256, stdin);
+	fgets(string, 256, stdin);
 	
 	
 	printf(string);
 	strcpy(string1, string);
 	
-	ptr = string1;*/ /*moves to specific column*/
-		/*while((*ptr)!='\0' && i!=colNum && ((*ptr)+1)!='\n'){
+	ptr = string1; /*moves to specific column*/
+		while((*ptr)!='\0' && i!=colNum && ((*ptr)+1)!='\n'){
 		if((*ptr)==' '){
 			i++;
 		}
@@ -51,66 +51,82 @@ int main(int argc, char *argv[]){
 	printf("found worrddd %s \n", ptr);
 	
 	
+	struct title_basics *title = NULL;
+	struct name_basics *name = NULL;
+	struct title_principals *principals = NULL;
+	
+	struct titleInfo *titleBasics = NULL;
+	titleBasics = get_title( argv[1] );
+	build_tconstindex( titleBasics );
+	build_tindex( titleBasics );
+	
+	struct nameInfo *nameBasics = NULL;
+	nameBasics = get_name( argv[1] );
+	build_nconstindex( nameBasics );
+	build_nindex( nameBasics );
+	
+	struct principalsInfo *titlePrincipals = NULL;
+	titlePrincipals = get_principals(argv[1] );
+	build_tindex_tp( titlePrincipals );
+	build_nindex_tp( titlePrincipals );
+	
 if(strstr(string, "name")!=NULL){
 		printf("name\n");
 		printf("use %s \n", ptr);
-		struct nameInfo *titleBasics = NULL;
 		printf("%s \n", argv[1]);
-		titleBasics = get_name(argv[1]);
- 
-
-		build_nindex( titleBasics );
-
- 
-		struct name_basics *title = NULL;
-		title = find_primary_name( titleBasics, ptr );
 		
+		name = find_primary_name( nameBasics, ptr );
+		printf( "%p\n", (void *)name );
+		printf( "%s\n", name->nconst);
+		printf( "%s\n", name->primaryName );
+
+		principals = find_nconst_tp( titlePrincipals, name->nconst );
+		printf( "%p\n", (void *)principals );
+		printf( "%s\n", principals->nconst);
+		printf( "%s\n", principals->tconst );
+		printf( "%s\n", principals->characters );
+
+		title = find_tConst( titleBasics, principals->tconst );
 		printf( "%p\n", (void *)title );
-
-		printf( "%s\n", title->nconst );
-
-		printf( "%s\n", title->primaryName );
-	
-	
+		printf( "%s\n", title->tconst );
+		printf( "%s\n", title->primaryTitle );	
+		printf( "%s\n", title->primaryTitle );
 	
 	}
 	else if(strstr(string, "title")!=NULL){
 		printf("title\n");
 		printf("use [%s] \n", ptr);
-		
-		struct titleInfo *titleBasics = NULL;
-		struct title_basics *title = NULL;
-		titleBasics = get_title( argv[1] );
-
-		build_tindex( titleBasics );
-
+			
+		  
 		title = find_primary_title( titleBasics, ptr );
+		printf( "%p\n", (void *)title );
+		printf( "%s\n", title->tconst );
+		printf( "%s\n", title->primaryTitle );					
 
-	  printf( "%p\n", (void *)title );
+		principals = find_tconst_tp( titlePrincipals,  reverse(title->tconst));
+		printf( "%p\n", (void *)principals );
+		printf( "%s\n", principals->nconst);
+		printf( "%s\n", principals->tconst );
+		printf( "%s\n", principals->characters );
 
-	  printf( "%s\n", title->tconst );
-
-	  printf( "%s\n", title->primaryTitle );
+		name = find_nConst( nameBasics, reverse(principals->nconst) );
+		printf( "%p\n", (void *)name );
+		printf( "%s\n", name->nconst);
+		printf( "%s\n", name->primaryName );
+	  
 		
 	}
 	else {
 		printf("ERROR");
 		
-	}*/
+	}
 	
 /*"/home/courses/cis2520"
  */
 printf("HELLOOOO %s \n", argv[1]);
-struct title_basics *title = NULL;
- struct name_basics *name = NULL;
- struct name_basics *name2 = NULL;
-  struct title_principals *principals = NULL;
- 
- struct titleInfo *titleBasics = NULL;
-   titleBasics = get_title( argv[1] );
 
-  build_tconstindex( titleBasics );
-build_tindex( titleBasics );
+ 
+ 
   
 /*
 title = find_primary_title(titleBasics, "Star Wars: Episode V - The Empire Strikes Back")
@@ -120,12 +136,7 @@ printf( "%p\n", (void *)title );
 printf( "%s\n", title->tconst );
 printf( "%s\n", title->primaryTitle );
 */
-struct nameInfo *nameBasics = NULL;
-  nameBasics = get_name( argv[1] );
 
-  build_nconstindex( nameBasics );
-
-  build_nindex( nameBasics );
  /* 
   name = find_nConst( nameBasics, reverse("nm0000001") );
   printf( "%p\n", (void *)name );
@@ -138,12 +149,7 @@ printf( "%s\n", name->nconst);
 printf( "%s\n", name->primaryName );
 */
 
-struct principalsInfo *titlePrincipals = NULL;
-  titlePrincipals = get_principals(argv[1] );
 
-  build_tindex_tp( titlePrincipals );
-
-  build_nindex_tp( titlePrincipals );
 /*
 principals = find_tconst_tp( titlePrincipals, reverse("tt0000005") );
   printf( "%p\n", (void *)principals );
@@ -161,23 +167,14 @@ printf( "%s\n", principals->characters );
 
   printf( "Ready\n" );
   
-  title = find_primary_title( titleBasics, "Blade Runner" );
-printf( "%p\n", (void *)title );
-printf( "%s\n", title->tconst );
-printf( "%s\n", title->primaryTitle );					
+ /* 
 
- principals = find_tconst_tp( titlePrincipals,  reverse(title->tconst));
-  printf( "%p\n", (void *)principals );
-printf( "%s\n", principals->nconst);
-printf( "%s\n", principals->tconst );
-printf( "%s\n", principals->characters );
+printf("%s\n", name->primaryName);*/
 
-  name = find_nConst( nameBasics, reverse(principals->nconst) );
-  printf( "%p\n", (void *)name );
-printf( "%s\n", name->nconst);
-printf( "%s\n", name->primaryName );
 
-printf("%s\n", name->primaryName);
+
+
+
  
 /*
   printf( "%s\n", name->primaryName );
