@@ -122,7 +122,6 @@ struct title_basics *find_primary_title(struct titleInfo *tInfo, char * toFind){
 
  void build_tconstindex(struct titleInfo *tInfo){
 	 int j = 0;
-	
 	for(j =0; j < tInfo->numItems; j++){
 		 add_tnode(&tInfo->nindex, reverse(tInfo->value[j]->tconst), tInfo->value[j]);
 	 }
