@@ -22,7 +22,7 @@
 	  */
   if (root == NULL)
   {
-	  printf("ROOT IS NULL\n");
+	  /*printf("ROOT IS NULL\n");*/
 	  return;
   }
   else{
@@ -32,15 +32,15 @@
 	  if((strcmp(tprincipals->nconst, name->nconst) == 0) && (find_nconst_tp(pInfo, name->nconst) != NULL)){
 	  printf("TCONST: %s/n", tprincipals->tconst);
 		  title = find_primary_title(tInfo, tprincipals->tconst);
-		 if(title != NULL){
+		/* if(title != NULL){
 		  printf("ENTRY IS GOOD! \n");
 		printf( "%s\n", title->primaryTitle );
 		printf( "%s\n", tprincipals->characters );
-		}
+		}*/
 		
 		title = find_tConst(tInfo, tprincipals->tconst);
 		 if(title != NULL){
-		  printf("ENTRY IS GOOD! \n");
+		  /*printf("ENTRY IS GOOD! \n");*/
 		printf( "%s : %s\n", title->primaryTitle, tprincipals->characters);
 		}
 	}
