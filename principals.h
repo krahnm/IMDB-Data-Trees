@@ -17,3 +17,6 @@ struct title_principals *find_tconst_tp(struct principalsInfo *nInfo, char * toF
 void build_nindex_tp(struct principalsInfo *nInfo);
 struct title_principals *find_nconst_tp(struct principalsInfo *nInfo, char * toFind);
 struct name_basics *find_nnode(struct tree *q, char * w);
+
+void add_pnnode(struct tree **root, char *string, struct title_principals *address);
+void add_ptnode(struct tree **root, char *string, struct title_principals *address);

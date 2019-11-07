@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include "principals.h"
 #include "common.h"
 #include "binary.h"
 #include "title.h"
@@ -39,6 +40,50 @@ void add_nnode(struct tree **root, char *string, struct name_basics *address){
     else
     {
       add_nnode( &((*root)->children[1]), string, address );
+    }
+  }
+  else /* no node here */
+  {
+    (*root) = malloc( sizeof( struct tree ) );
+    (*root)->key = string;
+    (*root)->value = address;
+    (*root)->children[0]=NULL;
+    (*root)->children[1]=NULL;
+  }
+}
+
+void add_ptnode(struct tree **root, char *string, struct title_principals *address){
+	if (*root) /* there's a node here */
+  {
+    if ( strcmp(string,(*root)->key) < 0 )
+    {
+      add_ptnode( &((*root)->children[0]), string, address );
+    }
+    else
+    {
+      add_ptnode( &((*root)->children[1]), string, address );
+    }
+  }
+  else /* no node here */
+  {
+    (*root) = malloc( sizeof( struct tree ) );
+    (*root)->key = string;
+    (*root)->value = address;
+    (*root)->children[0]=NULL;
+    (*root)->children[1]=NULL;
+  }
+}
+
+void add_pnnode(struct tree **root, char *string, struct title_principals *address){
+	if (*root) /* there's a node here */
+  {
+    if ( strcmp(string,(*root)->key) < 0 )
+    {
+      add_pnnode( &((*root)->children[0]), string, address );
+    }
+    else
+    {
+      add_pnnode( &((*root)->children[1]), string, address );
     }
   }
   else /* no node here */
@@ -102,4 +147,66 @@ struct name_basics *find_nnode(struct tree *root, char * toFind){
     return NULL;
   }
 }
+
+struct title_principals *find_pnode(struct tree *root, char * toFind){
+	if (root)
+  {
+    if ( strcmp(toFind,(root)->key) == 0 )
+    {
+      return (struct title_principals *)(root->value);
+    }
+    else
+    {
+      if ( strcmp(toFind,(root)->key) < 0 )
+      {
+        return find_pnode( root->children[0], toFind );
+      }
+      else /* value>=(root)->number */
+      {
+        return find_pnode( root->children[1], toFind );
+      }
+    }
+
+  }
+  else 
+  {
+    return NULL;
+  }
+}
+
+struct tree *find_topNode(struct tree **root, char * toFind){
+	printf("FIND TOP NODE \n");
+	
+	if (*root)
+  {
+	  printf("KEYY: %s \n", (*root)->key);
+	  printf("FIND KEYY: %s \n", toFind);
+    if ( strcmp(toFind,(*root)->key) == 0 )
+    {
+		printf("KEYY Returning!!: %s \n", (*root)->key);
+      return (*root);
+    }
+    else
+    {
+      if ( strcmp(toFind,(*root)->key) < 0 )
+      {
+		  printf("LEFT\n");
+        return find_topNode( &((*root)->children[0]), toFind );
+      }
+      else /* value>=(root)->number */
+      {
+		  printf("right\n");
+        return find_topNode( &((*root)->children[1]), toFind );
+      }
+    }
+
+  }
+  else 
+  {
+	  printf("ROOT = NULL\n");
+    return NULL;
+  }
+}
+
+
  

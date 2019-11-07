@@ -6,6 +6,8 @@
 #include <string.h>
 #include "binary.h"
 #include "principals.h"
+#include "name.h"
+#include "title.h"
 
 
 struct principalsInfo *get_principals(char *path){
@@ -115,25 +117,27 @@ struct principalsInfo *get_principals(char *path){
  void build_tindex_tp(struct principalsInfo *nInfo){
 	 int j = 0;
 	 for(j =0; j < nInfo->numItems; j++){
-		 add_tnode(&nInfo->nindex, reverse(nInfo->value[j]->tconst), nInfo->value[j]);
+		 add_ptnode(&nInfo->tindex, reverse(nInfo->value[j]->tconst), nInfo->value[j]);
 	 }
  }
  
  
 struct title_principals *find_tconst_tp(struct principalsInfo *nInfo, char * toFind){
-	return find_nnode(nInfo->nindex, toFind);
+	return find_pnode(nInfo->tindex, toFind);
 }
 
 void build_nindex_tp(struct principalsInfo *nInfo){
 	 int j = 0;
 	 for(j =0; j < nInfo->numItems; j++){
-		 add_nnode(&nInfo->nindex, nInfo->value[j]->nconst, nInfo->value[j]);
+		 add_pnnode(&nInfo->nindex, nInfo->value[j]->nconst, nInfo->value[j]);
 	 }
  }
  
  
 struct title_principals *find_nconst_tp(struct principalsInfo *nInfo, char * toFind){
-	return find_nnode(nInfo->nindex, toFind);
+	return find_pnode(nInfo->nindex, toFind);
 }
+
+
 
 

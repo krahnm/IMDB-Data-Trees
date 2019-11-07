@@ -130,7 +130,7 @@ struct title_basics *find_primary_title(struct titleInfo *tInfo, char * toFind){
  
  
 struct title_basics *find_tConst(struct titleInfo *tInfo, char * toFind){
-	return find_tnode(tInfo->nindex, toFind);
+	return find_tnode(tInfo->nindex, reverse(toFind));
 }
  
 
