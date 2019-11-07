@@ -41,8 +41,7 @@
 		title = find_tConst(tInfo, tprincipals->tconst);
 		 if(title != NULL){
 		  printf("ENTRY IS GOOD! \n");
-		printf( "%s\n", title->primaryTitle );
-		printf( "%s\n", tprincipals->characters );
+		printf( "%s : %s\n", title->primaryTitle, tprincipals->characters);
 		}
 	}
 		print_ntree( root->children[0], tInfo, pInfo, name);
@@ -51,40 +50,66 @@
 	}
   }
 
-void print_ttree( struct tree *root)
+ void print_ttree( struct tree *root, struct nameInfo *nInfo, struct principalsInfo *pInfo, struct title_basics *title)
 {
-	
-	
+	struct name_basics *name;
+	struct title_principals *tprincipals;
+	printf("SHOULD PRINT ITTTT\n");
 	/*struct title_principals *temp = (struct title_principals *)(root->value);
 	char *buff = (temp->nconst);
 	printf("BUFF: %s \n", buff);
 	printf("nconst: %s \n", nConst);
 	int compare = strcmp(buff, nConst);
 	struct title_basics *title = find_primary_title(tInfo, root->key);
-	 && (compare == 0) && (title != NULL) */
+	  */
   if (root == NULL)
   {
+	  printf("ROOT IS NULL\n");
 	  return;
   }
   else{
-	  printf("ENTRY IS GOOD! \n");
-    printf( "%s\n",root->key );
+	  
+	  tprincipals = root->value;
+	  
+	  if((strcmp(tprincipals->tconst, title->tconst) == 0) && (find_tconst_tp(pInfo, title->tconst) != NULL)){
+	  printf("NCONST: %s/n", tprincipals->nconst);
+		  name = find_primary_name(nInfo, tprincipals->nconst);
+		 if(title != NULL){
+		  printf("ENTRY IS GOOD! \n");
+		printf( "%s\n", name->primaryName );
+		printf( "%s\n", tprincipals->characters );
+		}
+		
+		name = find_nConst(nInfo, tprincipals->nconst);
+		 if(name != NULL){
+		  printf("ENTRY IS GOOD! \n");
+		printf( "%s : %s\n", name->primaryName, tprincipals->characters);
+		}
+	}
+		print_ttree( root->children[0], nInfo, pInfo, title);
 
-    print_ttree( root->children[0] );
-
-    print_ttree( root->children[1] );
+		print_ttree( root->children[1], nInfo, pInfo, title);
+	}
   }
-}
  
  
  
 /*TESTINGGGGGGGG*/
 int main(int argc, char *argv[]){
-	struct name_basics **ptrName = NULL;
-	struct title_basics **ptrTitle = NULL;
-	struct title_principals **ptrPrincipals = NULL;
-	struct titleInfo *tInfo = NULL;
-	struct principalsInfo *pInfo = NULL;
+	char* ptr;
+	char* string = malloc(256);
+	char* string1 = malloc(256);
+	int colNum = 1;
+	struct title_basics *title = NULL;
+	struct name_basics *name = NULL;
+	struct title_principals *principals = NULL;
+	
+	struct titleInfo *titleBasics = NULL;
+	struct nameInfo *nameBasics = NULL;
+	struct principalsInfo *titlePrincipals = NULL;
+	int i =0;
+	
+	
 	if(argc<2){
 		fprintf( stderr, "Usage:  %s directory\n", argv[0] );
 		return -1;
@@ -93,22 +118,14 @@ int main(int argc, char *argv[]){
 	/*pInfo = get_titlePrinciples("/home/courses/cis2520");
 	ptrPrincipals = get_titlePrinciples("/home/courses/cis2520"); 
 	*/
-	int j=0;
-	int i =0;
-	char* ptr;
-	char* string = malloc(256);
-	char* string1 = malloc(256);
-	int colNum = 1;
-	char holder; /*Holds characters to copy over*/
-	int len=0;
-	char *buffer = malloc(256);
+	
+	
 	
 	string[0] = '\0';
 	printf("> ");
 	fgets(string, 256, stdin);
 	
 	
-	printf(string);
 	strcpy(string1, string);
 	
 	ptr = string1; /*moves to specific column*/
@@ -120,14 +137,10 @@ int main(int argc, char *argv[]){
 		(ptr)++;
 	}
 	ptr[strlen(ptr)-1] = '\0';
-	printf("found worrddd %s \n", ptr);
 	
 	
-	struct title_basics *title = NULL;
-	struct name_basics *name = NULL;
-	struct title_principals *principals = NULL;
 	
-	struct titleInfo *titleBasics = NULL;
+	
 	titleBasics = get_title( argv[1] );
 	build_tconstindex( titleBasics );
 	build_tindex( titleBasics );
@@ -136,7 +149,7 @@ int main(int argc, char *argv[]){
 	/*print_tree((struct tree *)titleBasics->tindex);
 	print_tree((struct tree *)titleBasics->nindex);
 	*/
-	struct nameInfo *nameBasics = NULL;
+	
 	nameBasics = get_name( argv[1] );
 	build_nconstindex( nameBasics );
 	build_nindex( nameBasics );
@@ -144,7 +157,7 @@ int main(int argc, char *argv[]){
 	/*print_tree((struct tree *)nameBasics->nindex);
 	print_tree((struct tree *)nameBasics->nindex);
 	*/
-	struct principalsInfo *titlePrincipals = NULL;
+	
 	titlePrincipals = get_principals(argv[1] );
 	build_tindex_tp( titlePrincipals );
 	build_nindex_tp( titlePrincipals );
@@ -152,10 +165,7 @@ int main(int argc, char *argv[]){
 	/*print_tree((struct tree *)nameBasics->nindex);
 	print_tree((struct tree *)nameBasics->nindex);
 	*/
-if(strstr(string, "name")!=NULL){
-		printf("name\n");
-		printf("use %s \n", ptr);
-		printf("%s \n", argv[1]);
+if(strstr(string, "name")!=NULL){;
 		
 		name = find_primary_name( nameBasics, ptr );
 		if(name != NULL){
@@ -186,24 +196,54 @@ if(strstr(string, "name")!=NULL){
 					printf( "%p\n", (void *)title );
 					printf( "%s\n", title->tconst );
 					printf( "%s\n", title->primaryTitle );
+					/*printf("%s : %s\n", title->primaryTitle, );*/
 				}
 				
-				title = find_primary_title( titleBasics, principals->tconst );
+			/*	title = find_primary_title( titleBasics, principals->tconst );
 				if(title != NULL){
 					printf( "%p\n", (void *)title );
 					printf( "%s\n", title->tconst );
 					printf( "%s\n", title->primaryTitle );
-				}
+				}*/
 			}
 		}
 	
 	}
 	else if(strstr(string, "title")!=NULL){
-		printf("title\n");
-		printf("use [%s] \n", ptr);
 			
-		  
 		title = find_primary_title( titleBasics, ptr );
+		if(title != NULL){
+			printf( "%p\n", (void *)name );
+			printf( "%s\n", title->tconst);
+			printf( "%s\n", title->primaryTitle );
+	
+
+			principals = find_tconst_tp( titlePrincipals, reverse(title->tconst) );
+			if(principals != NULL){
+				
+				struct tree *groot = find_topNode(&(titlePrincipals->tindex), reverse(title->tconst));
+				
+				printf( "%p\n", (void *)principals );
+				printf( "%s\n", principals->nconst);
+				printf( "%s\n", principals->tconst );
+				printf( "%s\n", principals->characters );
+				
+				printf("PRINT TREES \n");
+				print_ttree(groot, nameBasics, titlePrincipals, title);
+					printf("AFTER TREES \n");
+					
+				printf("titleB: %p\n", (void *)nameBasics);	
+				printf("tConst: %s \n", principals->nconst);
+				name = find_nConst( nameBasics, reverse(principals->nconst) );
+					
+				if(name != NULL){
+					printf( "%p\n", (void *)name );
+					printf( "%s\n", name->nconst );
+					printf( "%s\n", name->primaryName );
+				}
+			}
+		}
+		/*title = find_primary_title( titleBasics, ptr );
 		printf( "%p\n", (void *)title );
 		printf( "%s\n", title->tconst );
 		printf( "%s\n", title->primaryTitle );	
@@ -216,7 +256,7 @@ if(strstr(string, "name")!=NULL){
 		printf( "%s\n", principals->characters );
 
 
-		struct tree *top = find_topNode(&(titlePrincipals->tindex), reverse("tt0083658"/*title->tconst*/));
+		struct tree *top = find_topNode(&(titlePrincipals->tindex), reverse(title->tconst));
 		
 		print_ttree(top);
 		name = find_nConst( nameBasics, reverse(principals->nconst) );
@@ -227,7 +267,7 @@ if(strstr(string, "name")!=NULL){
 		}
 		else{
 			printf("Broke \n");
-		}
+		}*/
 		
 	}
 	else {

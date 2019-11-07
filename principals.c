@@ -50,8 +50,8 @@ struct principalsInfo *get_principals(char *path){
 		i++;
 	}
 	
-	printf("\n Lines: %d \n",lines);
-	
+	/*printf("\n Lines: %d \n",lines);
+	*/
 	/*lines = 5; TODO	DELETE AFTER TESTING!!!*/
 	nameArray = malloc(sizeof(struct title_principals)*lines);
 	treeInfo->numItems = lines;

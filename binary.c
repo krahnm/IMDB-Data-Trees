@@ -175,27 +175,23 @@ struct title_principals *find_pnode(struct tree *root, char * toFind){
 }
 
 struct tree *find_topNode(struct tree **root, char * toFind){
-	printf("FIND TOP NODE \n");
+	
 	
 	if (*root)
   {
-	  printf("KEYY: %s \n", (*root)->key);
-	  printf("FIND KEYY: %s \n", toFind);
+	 
     if ( strcmp(toFind,(*root)->key) == 0 )
     {
-		printf("KEYY Returning!!: %s \n", (*root)->key);
       return (*root);
     }
     else
     {
       if ( strcmp(toFind,(*root)->key) < 0 )
       {
-		  printf("LEFT\n");
         return find_topNode( &((*root)->children[0]), toFind );
       }
       else /* value>=(root)->number */
       {
-		  printf("right\n");
         return find_topNode( &((*root)->children[1]), toFind );
       }
     }
@@ -203,7 +199,6 @@ struct tree *find_topNode(struct tree **root, char * toFind){
   }
   else 
   {
-	  printf("ROOT = NULL\n");
     return NULL;
   }
 }

@@ -42,8 +42,6 @@ char *reverse(char* string){
 	 char *revString = NULL;
 	 char *ptr = string;
 	 char holder;
-	 int start = 0;
-	 int end = 0;
 	 int length = strlen(string);
 	 int i = 0;
 	 revString = malloc(strlen(string) + 1);

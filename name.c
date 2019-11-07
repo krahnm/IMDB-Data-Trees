@@ -46,8 +46,8 @@ struct nameInfo *get_name(char *path){
 		i++;
 	}
 	
-	printf("\n Lines: %d \n",lines);
-	
+	/*printf("\n Lines: %d \n",lines);
+	*/
 	
 	nameArray = malloc(sizeof(struct name_basics)*lines);
 	treeInfo->numItems = lines;
