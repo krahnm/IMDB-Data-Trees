@@ -6,8 +6,10 @@
 #include "common.h"
 #include "name.h"
 
+/*This file works with the array of names*/
 
-struct nameInfo *get_name(char *path){
+struct nameInfo *get_name(char *path)
+{
 	struct nameInfo *treeInfo = NULL;
 	struct name_basics **nameArray = NULL;
 	char *location = NULL;
@@ -26,28 +28,22 @@ struct nameInfo *get_name(char *path){
 	strcpy(location, path);
 	strcat(location, "/name.basics.tsv");
 	
-	
+	/*calculates the array size needed - looks only for people that are actors or actresses*/
 	fp = fopen(location, "r");
-	while (/*i<=5*/ !feof(fp)){
+	while (!feof(fp)) 
+	{
 		fgets(buffer, 256, fp);
-		/*if(strcmp(buffer,"NULL") != 0){
-			printf("\n BUFFER IS MESSED \n");
-		}*/
 		get_column(buffer, string, 4);
-		/*printf("Buffer	%s\n", buffer);
-		printf("Contents:	[%s]\n", string);*/
-		if(strstr(string, "actor")!=NULL){
-			lines++;
-			 
+		if(strstr(string, "actor")!=NULL)
+		{
+			lines++;	 
 		}
-		else if(strstr(string, "actress")!=NULL){
+		else if(strstr(string, "actress")!=NULL)
+		{
 			lines++;
 		}
 		i++;
 	}
-	
-	/*printf("\n Lines: %d \n",lines);
-	*/
 	
 	nameArray = malloc(sizeof(struct name_basics)*lines);
 	treeInfo->numItems = lines;
@@ -55,16 +51,17 @@ struct nameInfo *get_name(char *path){
 	treeInfo->nindex = 0;
 	treeInfo->tindex = 0;
 	
+	/*Gets needed info for name tree*/
 	fseek(fp, 0, SEEK_SET);
 	i=0;
 	k = 0;
-	while (/*k<=5*/ !feof(fp)){ 
+	while (!feof(fp)){ 
 		
 		fgets(buffer, 256, fp);
 		get_column(buffer, string, 4);
-		/*printf("Contents:	[%s]\n", string);*/
 		
-		if(strstr(string, "actor")!=NULL || strstr(string, "actress")!=NULL){
+		if(strstr(string, "actor")!=NULL || strstr(string, "actress")!=NULL)
+		{
 			get_column(buffer, string, 0);
 			nConst = malloc(strlen(string)+1);
 			strcpy(nConst, string);
@@ -81,19 +78,6 @@ struct nameInfo *get_name(char *path){
 		}
 		k++;
 	}
-	/*int j=0;
-	for(j=0; j<=5; j++){
-		printf("nConst:	%s \n", nameArray[j]->nconst);
-	}
-	
-	for(j=0; j<=lines; j++){
-		free(nameArray[j]->nconst);
-		free(nameArray[j]->primaryName);
-		free(nameArray[j]);
-	}
-	free(nameArray);*/
-	
-	
 	fclose(fp);
 	free(location);
 	free(buffer);
@@ -102,28 +86,33 @@ struct nameInfo *get_name(char *path){
 	
 	return treeInfo;
 }
-
+/*Calls the function to build the nodes*/
  void build_nindex(struct nameInfo *nInfo){
 	 int j = 0;
-	 for(j =0; j < nInfo->numItems; j++){
+	 for(j =0; j < nInfo->numItems; j++)
+	 {
 		 add_nnode(&nInfo->nindex, nInfo->value[j]->primaryName, nInfo->value[j]);
 	 }
  }
  
- 
-struct name_basics *find_primary_name(struct nameInfo *nInfo, char * toFind){
+/*Calls Function to find name node*/
+struct name_basics *find_primary_name(struct nameInfo *nInfo, char * toFind)
+{
 	return find_nnode(nInfo->nindex, toFind);
 }
-
-void build_nconstindex(struct nameInfo *nInfo){
+/*Called to add node in the linker trees*/
+void build_nconstindex(struct nameInfo *nInfo)
+{
 	 int j = 0;
-	 for(j =0; j < nInfo->numItems; j++){
+	 for(j =0; j < nInfo->numItems; j++)
+	 {
 		 add_nnode(&nInfo->tindex, reverse(nInfo->value[j]->nconst), nInfo->value[j]);
 	 }
  }
  
- 
-struct name_basics *find_nConst(struct nameInfo *nInfo, char * toFind){
+ /*calls the function to find the name node, given the nConst*/
+struct name_basics *find_nConst(struct nameInfo *nInfo, char * toFind)
+{
 	return find_nnode(nInfo->tindex, toFind);
 }
 
