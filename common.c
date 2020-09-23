@@ -6,7 +6,10 @@
 #include "common.h"
 #include "name.h"
 
-void get_column(char *buffer, char *string, int colNum){
+/* This file contains all the common functions*/
+
+void get_column(char *buffer, char *string, int colNum)
+{
 	char *ptr;
 	char holder; /*Holds characters to copy over*/
 	int i=0;
@@ -14,31 +17,32 @@ void get_column(char *buffer, char *string, int colNum){
 	ptr = buffer;
 	string[0] = '\0';
 	
-	
-	while((*ptr)!='\0' && i!=colNum){/*moves to specific column*/
-		if((*ptr)=='\t'){
+	while((*ptr)!='\0' && i!=colNum)/*moves to specific column*/
+	{
+		if((*ptr)=='\t')
+		{
 			i++;
 		}
-		
 		(ptr)++;
 	}
 	
 	len=0;
 	string[0] = '\0';
 	
-	while((*ptr)!='\0' && (*ptr)!='\t'){ /*Get specified comumn*/
-		
+	while((*ptr)!='\0' && (*ptr)!='\t')/*Get specified comumn*/
+	{ 
 		holder = *ptr;
 		len = strlen(string);
 		string[len] = holder;
 		string[len+1] = '\0';
-		
 			
 		(ptr)++;
 	}
 }
 
-char *reverse(char* string){
+/*reverses a string*/
+char *reverse(char* string)
+{
 	 char *revString = NULL;
 	 char *ptr = string;
 	 char holder;
@@ -46,7 +50,8 @@ char *reverse(char* string){
 	 int i = 0;
 	 revString = malloc(strlen(string) + 1);
 	 
-	 for(i = 0; i < length; i++){
+	 for(i = 0; i < length; i++)
+	 {
 		 holder = ptr[length - i - 1];
 		 revString[i] = holder;
 	 }
@@ -54,15 +59,15 @@ char *reverse(char* string){
 	 string = revString;
 	 strcpy(string, revString);
 	 return (char*)string;
-	 
 }
 
-void free_tree( struct tree *root )
+/*Frees the allocated memory*/
+void free_tree( struct tree *root)
 {
-  if (root)
-  {
-    free_tree( root->children[0] );
-    free_tree( root->children[1] );
-    free( root );
-  }
+	if (root)
+  	{
+    		free_tree( root->children[0] );
+    		free_tree( root->children[1] );
+    		free( root );
+  	}
 }
